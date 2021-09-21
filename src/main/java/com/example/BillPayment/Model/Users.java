@@ -2,16 +2,12 @@ package com.example.BillPayment.Model;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
-import javax.persistence.SequenceGenerator;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -24,21 +20,13 @@ import lombok.NoArgsConstructor;
 @Builder
 
 @Table(
-        name = "users",
-        uniqueConstraints = {
-                @UniqueConstraint(name = "loginid", columnNames = "loginid")
-        }
+        name = "users"
 )
 public class Users {
 
 	@Id
-	@SequenceGenerator(
-            name = "user_sequence",
-            sequenceName = "user_sequence",
-            allocationSize = 1
-    )
     @GeneratedValue(
-            strategy = GenerationType.SEQUENCE,
+            strategy = GenerationType.AUTO,
             generator = "user_sequence"
     )
 	private Long sequenceid;
@@ -48,16 +36,14 @@ public class Users {
 	private String password;
 	private String linkedaccount;
 	
-
-	@OneToOne(
-            cascade = CascadeType.ALL,
-            fetch = FetchType.LAZY,
-            optional = false
+	
+	@ManyToOne(
+            cascade = CascadeType.ALL
     )
     @JoinColumn(
             name = "roleid",
             referencedColumnName = "roleid"
     )
-	private Role roleid;
+	private Role role;
 	
 }
